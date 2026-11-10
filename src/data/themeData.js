@@ -1,3 +1,4 @@
+
 /* eslint-disable */
 import {
   greenThemeLight,
@@ -19,5 +20,5 @@ import {
 } from "../theme/theme";
 
 export const themeData = {
-  theme: yellowThemeDark,
+  theme: blueThemeDark,
 };

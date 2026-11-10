@@ -1,10 +1,11 @@
+
 import resume from "../assets/pdf/resume.pdf";
 
 export const headerData = {
-  name: "Vishnuperumal",
+  name: "Gaddam Prasad Reddy",
   title: "Full Stack Developer",
   desciption:
-    "Full-Stack Web Developer with 2+ years of expertise in React.js, Node.js, and PostgreSQL. Skilled in building responsive interfaces, RESTful APIs, and containerized deployments with Docker to deliver seamless, scalable applications",
-  image: "../assets/png/vishnu.png",
+    "Full Stack Developer with experience in building responsive and scalable web applications using React.js, JavaScript, Node.js, Python, REST APIs, and PostgreSQL. Passionate about creating user-friendly interfaces and reliable backend solutions.",
+  image: "../assets/png/prasad.png",
   resumePdf: resume,
 };

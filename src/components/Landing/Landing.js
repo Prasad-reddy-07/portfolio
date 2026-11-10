@@ -7,7 +7,7 @@ import "./Landing.css";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { headerData } from "../../data/headerData";
 import { socialsData } from "../../data/socialsData";
-import vishnu from "../../assets/png/vishnu.png";
+import vishnu from "../../assets/png/prasad.png";
 
 import {
   FaTwitter,
