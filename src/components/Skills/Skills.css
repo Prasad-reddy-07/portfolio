@@ -56,8 +56,11 @@
 }
 
 
-.skill--box > img {
+.skill--box > img,
+.skill--box > svg {
     height: 50px;
+    width: auto;
+    max-width: 50px;
     pointer-events: none;
 }
 

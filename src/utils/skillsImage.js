@@ -98,6 +98,7 @@ export const skillsImage = (skill) => {
     case "angular":
       return angular;
     case "javascript":
+    case "js":
       return javascript;
     case "next js":
       return nextJS;
@@ -228,6 +229,9 @@ export const skillsImage = (skill) => {
     case "canva":
       return canva;
     case "node":
+    case "node js":
+    case "nodejs":
+    case "node.js":
       return node;
     default:
       break;

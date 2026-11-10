@@ -45,8 +45,12 @@ function ExperienceCard({
           </h6>
           <h4 style={{ color: theme.tertiary }}>{jobtitle}</h4>
           <h5 style={{ color: theme.tertiary80 }}>{company}</h5>
-          <br></br>
-          <h3 style={{ color: theme.tertiary80 }}>{responsibilities}</h3>
+          <p
+            className="experience-responsibilities"
+            style={{ color: theme.tertiary80 }}
+          >
+            {responsibilities}
+          </p>
         </div>
       </div>
     </Fade>

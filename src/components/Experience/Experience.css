@@ -1,4 +1,4 @@
-.experience{
+.experience {
     min-height: 100vh;
 }
 
@@ -8,7 +8,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-
 }
 
 .experience-description {
@@ -31,13 +30,15 @@
 .experience-card {
     display: flex;
     flex-direction: row;
-    align-items:flex-start;
+    align-items: flex-start;
     justify-content: flex-start;
     width: 90%;
-    height: 140px;
+    min-height: 140px;
+    height: auto;
     padding: 1.5rem;
     border-radius: 20px;
     margin-bottom: 1.5rem;
+    box-sizing: border-box;
     transition: background-color 200ms ease-in-out;
 }
 
@@ -49,6 +50,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    margin-top: 0.25rem;
 }
 
 .expcard-img > img {
@@ -57,26 +59,47 @@
 }
 
 .experience-details {
-    margin-left: 0.6rem;
+    margin-left: 1rem;
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .experience-details > h6 {
     font-family: var(--primaryFont);
     font-size: 0.85rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.35rem 0;
 }
 
 .experience-details > h4 {
     font-family: var(--primaryFont);
     font-size: 1.225rem;
     font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 0.25rem 0;
 }
 
 .experience-details > h5 {
     font-family: var(--primaryFont);
     font-size: 1.15rem;
     font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 0.6rem 0;
+}
+
+.experience-details > p,
+.experience-details > h3,
+.experience-responsibilities {
+    font-family: var(--primaryFont);
+    font-size: 0.92rem;
+    font-weight: 400;
+    line-height: 1.55;
+    margin: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .experience-image {
@@ -93,16 +116,6 @@
     pointer-events: none;
 }
 
-
-
-
-
-
-@media (min-width: 992px) and (max-width: 1380px) {
-
-}
-
-
 @media screen and (max-width: 992px) {
     .experience {
         min-height: 100%;
@@ -114,18 +127,20 @@
         flex: 1;
         margin: auto;
     }    
-    .experience-description > h1{
+    .experience-description > h1 {
         font-size: 3.2rem;
     }
     .experience-card {
         width: 100%;
+        min-height: 130px;
+        height: auto;
         padding: 1.5rem;
         margin-bottom: 1.5rem;
     }
 }
 
 @media screen and (max-width: 800px) {
-    .experience-description > h1{
+    .experience-description > h1 {
         font-size: 3rem;
         margin-bottom: 2rem;
         align-self: center;
@@ -134,51 +149,83 @@
         padding: 1rem;
     }
     .experience-card {
-        padding: 1rem;
-        margin-bottom: 1.5rem;
-        height: 130px;
+        padding: 1.25rem 1rem;
+        margin-bottom: 1.25rem;
+        min-height: 120px;
+        height: auto;
     }
     .expcard-img {
         border-radius: 50%;
         width: 45px;
         height: 45px;
     }
-    
     .expcard-img > img {
         width: 30px;
     }
-    .experience-details > h6 {
-        font-size: 0.85rem;
-        margin-bottom: 0.45rem;
+    .experience-details {
+        margin-left: 0.85rem;
     }
-    
+    .experience-details > h6 {
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
     .experience-details > h4 {
         font-size: 1.125rem;
         line-height: 126%;
+        margin-bottom: 0.2rem;
     }
-    
     .experience-details > h5 {
         font-size: 1.05rem;
         line-height: 126%;
+        margin-bottom: 0.5rem;
+    }
+    .experience-details > p,
+    .experience-details > h3,
+    .experience-responsibilities {
+        font-size: 0.88rem;
+        line-height: 1.5;
     }
 }
 
 @media screen and (max-width: 600px) {
-    .experience-description > h1{
+    .experience-description > h1 {
         font-size: 2.5rem;
+    }
+    .experience-card {
+        padding: 1.1rem 0.9rem;
     }
 }
 
-@media screen and (max-width: 400px) {
-
-}
-  
-@media only screen and (min-device-width: 320px) and (max-device-width: 
-  480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) {
-
-}
-
-
-@media only screen and (device-width: 768px) {
-
+@media screen and (max-width: 480px) {
+    .experience-description {
+        padding: 0.5rem;
+    }
+    .experience-card {
+        padding: 1rem 0.75rem;
+        border-radius: 16px;
+        margin-bottom: 1rem;
+    }
+    .expcard-img {
+        width: 40px;
+        height: 40px;
+    }
+    .expcard-img > img {
+        width: 24px;
+    }
+    .experience-details {
+        margin-left: 0.65rem;
+    }
+    .experience-details > h4 {
+        font-size: 1rem;
+    }
+    .experience-details > h5 {
+        font-size: 0.92rem;
+        margin-bottom: 0.45rem;
+    }
+    .experience-details > p,
+    .experience-details > h3,
+    .experience-responsibilities {
+        font-size: 0.84rem;
+        line-height: 1.45;
+    }
 }

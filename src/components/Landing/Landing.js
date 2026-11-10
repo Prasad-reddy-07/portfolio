@@ -7,7 +7,7 @@ import "./Landing.css";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { headerData } from "../../data/headerData";
 import { socialsData } from "../../data/socialsData";
-import vishnu from "../../assets/png/prasad.png";
+import prasad from "../../assets/png/prasad.png";
 
 import {
   FaTwitter,
@@ -124,8 +124,8 @@ function Landing() {
           </div>
         </div>
         <img
-          src={vishnu}
-          alt=""
+          src={prasad}
+          alt={headerData.name}
           className="landing--img"
           style={{
             opacity: `${drawerOpen ? "0" : "1"}`,

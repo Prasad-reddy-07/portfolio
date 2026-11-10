@@ -1,18 +1,37 @@
 .footer {
     font-family: 'var(--primaryFont)', sans-serif;
-    height: 60px;
+    min-height: 60px;
+    height: auto;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .footer p {
     font-weight: 500;
     font-family: var(--primaryFont);
     font-size: 18px;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    line-height: 1.5;
 }
 
 .footer p span {
     font-size: 24px;
+}
+
+@media (max-width: 500px) {
+    .footer p {
+        font-size: 15px;
+    }
+    .footer p span {
+        font-size: 20px;
+    }
 }
