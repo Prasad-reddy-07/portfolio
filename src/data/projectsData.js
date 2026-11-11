@@ -18,7 +18,7 @@ export const projectsData = [
     id: 2,
     projectName: "QR Builder Application",
     projectDesc:
-      "Developed a QR Builder application focused on creating and managing QR codes through a user-friendly web interface.",
+      "Developed a simple application to review RFP data and display key information in a structured table for easy evaluation.",
     tags: ["React", "JavaScript", "Node.js"],
     code: "",
     demo: "",
