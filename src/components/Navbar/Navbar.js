@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { NavHashLink as NavLink } from 'react-router-hash-link';
 import { IoMenuSharp, IoHomeSharp } from 'react-icons/io5';
-import { HiDocumentText, HiChip } from 'react-icons/hi';
+import { HiChip } from 'react-icons/hi';
 import { BsFillGearFill } from 'react-icons/bs';
 import { MdPhone } from 'react-icons/md';
 import {
@@ -34,7 +34,6 @@ function Navbar() {
 
     const [open, setOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
-    const preferredEduKeyRef = useRef('education');
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -63,10 +62,7 @@ function Navbar() {
                 if (el) {
                     const rect = el.getBoundingClientRect();
                     if (rect.top <= triggerOffset) {
-                        current =
-                            id === 'education'
-                                ? preferredEduKeyRef.current
-                                : id;
+                        current = id;
                     }
                 }
             }
@@ -102,12 +98,6 @@ function Navbar() {
             Icon: FaGraduationCap,
         },
         {
-            id: 'resume',
-            label: 'Resume',
-            to: '/#resume',
-            Icon: HiDocumentText,
-        },
-        {
             id: 'services',
             label: 'Services',
             to: '/#services',
@@ -117,9 +107,6 @@ function Navbar() {
     ];
 
     const handleNavItemClick = (id) => {
-        if (id === 'resume' || id === 'education') {
-            preferredEduKeyRef.current = id;
-        }
         setActiveSection(id);
         handleDrawerClose();
     };

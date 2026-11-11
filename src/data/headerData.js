@@ -5,7 +5,7 @@ export const headerData = {
   name: "Gaddam Prasad Reddy",
   title: "Full Stack Developer",
   desciption:
-    "Full Stack Developer with experience in building responsive and scalable web applications using React.js, JavaScript, Node.js, Python, REST APIs, and PostgreSQL. Passionate about creating user-friendly interfaces and reliable backend solutions.",
+    "Full Stack Developer experienced in designing and developing scalable, responsive web applications using React.js, JavaScript, Node.js, Python, and PostgreSQL. Skilled in building end-to-end solutions, developing REST APIs, and delivering efficient, user-focused applications. Passionate about leveraging modern technologies to solve real-world problems and drive innovation.",
   image: "../assets/png/prasad.png",
   resumePdf: resume,
 };

@@ -28,7 +28,7 @@ export const projectsData = [
     id: 3,
     projectName: "Video Search and Summarization (VSS)",
     projectDesc:
-      "Worked on a Video Search and Summarization application designed to help users search video content and generate concise summaries.",
+      "Developed a full-stack Video Search and Summarization application that allows users to upload videos, identify key activities, and generate concise summaries of important events.",
     tags: ["React", "Python", "Generative AI"],
     code: "",
     demo: "",
