@@ -13,7 +13,7 @@ function Education() {
     return (
         <div className="education" id="resume" style={{backgroundColor: theme.secondary}}>
            
-            <div className="education-body">
+            <div className="education-body" id="education">
                 <div className="education-description">
                 <h1 style={{color:theme.primary}}>Education</h1>
                     {educationData.map(edu => (

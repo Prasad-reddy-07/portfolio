@@ -92,20 +92,40 @@
 .submit-btn button {
     border: none;
     outline: none;
-    width: 140px;
+    min-width: 170px;
+    padding: 0 1.4rem;
     height: 50px;
     border-radius: 50px;
     font-weight: 500;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 0.6rem;
     cursor: pointer;
 }
 
 .submit-btn button p {
     font-size: 16px;
     font-family: var(--primaryFont);
+    margin: 0;
+    white-space: nowrap;
+}
+
+.contact-status {
+    margin-top: 1rem;
+    font-family: var(--primaryFont);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.contact-status--success {
+    color: #2e7d32;
+}
+
+.contact-status--error {
+    color: #c62828;
 }
 
 .submit-icon {

@@ -1,5 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Snackbar, IconButton, SnackbarContent } from '@material-ui/core';
+import {
+    Snackbar,
+    IconButton,
+    SnackbarContent,
+    CircularProgress,
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from 'axios';
 import isEmail from 'validator/lib/isEmail';
@@ -33,9 +38,12 @@ function Contacts() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [honeypot, setHoneypot] = useState('');
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
-    const [errMsg, setErrMsg] = useState('');
+    const [statusType, setStatusType] = useState('error');
+    const [statusMsg, setStatusMsg] = useState('');
 
     const { theme } = useContext(ThemeContext);
 
@@ -124,39 +132,168 @@ function Contacts() {
                 color: theme.secondary,
                 backgroundColor: theme.tertiary,
             },
+            '&:disabled': {
+                opacity: 0.7,
+                cursor: 'not-allowed',
+                transform: 'none',
+            },
         },
     }));
 
     const classes = useStyles();
 
-    const handleContactForm = (e) => {
+    const showFeedback = (type, msg) => {
+        setStatusType(type);
+        setStatusMsg(msg);
+        setOpen(true);
+    };
+
+    const handleFieldChange = (setter) => (e) => {
+        setter(e.target.value);
+        if (success) {
+            setSuccess(false);
+        }
+    };
+
+    const handleContactForm = async (e) => {
         e.preventDefault();
 
-        if (name && email && message) {
-            if (isEmail(email)) {
-                const responseData = {
-                    name: name,
-                    email: email,
-                    message: message,
-                };
+        if (isSubmitting) {
+            return;
+        }
 
-                axios.post(contactsData.sheetAPI, responseData).then((res) => {
-                    console.log('success');
-                    setSuccess(true);
-                    setErrMsg('');
+        if (honeypot) {
+            return;
+        }
 
-                    setName('');
-                    setEmail('');
-                    setMessage('');
-                    setOpen(false);
-                });
+        const trimmedName = name.trim();
+        const trimmedEmail = email.trim();
+        const trimmedMessage = message.trim();
+
+        if (!trimmedName && !trimmedEmail && !trimmedMessage) {
+            showFeedback('error', 'Please fill in all required fields.');
+            return;
+        }
+        if (!trimmedName) {
+            showFeedback('error', 'Please enter your full name.');
+            return;
+        }
+        if (!trimmedEmail) {
+            showFeedback('error', 'Please enter your email address.');
+            return;
+        }
+        if (!isEmail(trimmedEmail)) {
+            showFeedback('error', 'Please enter a valid email address.');
+            return;
+        }
+        if (!trimmedMessage) {
+            showFeedback('error', 'Please enter your message.');
+            return;
+        }
+
+        const customEndpoint = (
+            contactsData.formEndpoint ||
+            contactsData.sheetAPI ||
+            ''
+        ).trim();
+        const recipientEmail = (contactsData.email || '').trim();
+
+        if (!customEndpoint && !recipientEmail) {
+            showFeedback(
+                'error',
+                'Contact email service is not configured yet.'
+            );
+            return;
+        }
+
+        const isCustom = Boolean(customEndpoint);
+        const endpointUrl = isCustom
+            ? customEndpoint
+            : `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`;
+
+        const payload = {
+            name: trimmedName,
+            email: trimmedEmail,
+            message: trimmedMessage,
+            _replyto: trimmedEmail,
+            _subject: `New Portfolio Message from ${trimmedName}`,
+        };
+
+        if (!isCustom) {
+            payload._template = 'table';
+        }
+
+        setIsSubmitting(true);
+        setSuccess(false);
+        setStatusMsg('');
+        setOpen(false);
+
+        try {
+            const res = await axios.post(endpointUrl, payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+            });
+
+            const data = res && res.data ? res.data : {};
+            const confirmed = isCustom
+                ? res.status >= 200 &&
+                  res.status < 300 &&
+                  data.ok !== false &&
+                  data.success !== false &&
+                  data.success !== 'false'
+                : res.status >= 200 &&
+                  res.status < 300 &&
+                  (data.success === true || data.success === 'true');
+
+            if (confirmed) {
+                setSuccess(true);
+                setName('');
+                setEmail('');
+                setMessage('');
+                showFeedback(
+                    'success',
+                    'Your message has been sent successfully!'
+                );
             } else {
-                setErrMsg('Invalid email');
-                setOpen(true);
+                const serviceMsg =
+                    (typeof data.message === 'string' && data.message.trim()) ||
+                    (typeof data.error === 'string' && data.error.trim()) ||
+                    'Failed to send your message. Please try again later.';
+                setSuccess(false);
+                showFeedback('error', serviceMsg);
             }
-        } else {
-            setErrMsg('Enter all the fields');
-            setOpen(true);
+        } catch (err) {
+            const errData =
+                err && err.response && err.response.data
+                    ? err.response.data
+                    : {};
+            let errorMessage =
+                (typeof errData.error === 'string' && errData.error.trim()) ||
+                (typeof errData.message === 'string' &&
+                    errData.message.trim()) ||
+                '';
+
+            if (
+                !errorMessage &&
+                Array.isArray(errData.errors) &&
+                errData.errors.length > 0
+            ) {
+                errorMessage = errData.errors
+                    .map((item) => item.message)
+                    .filter(Boolean)
+                    .join(', ');
+            }
+
+            if (!errorMessage) {
+                errorMessage = `Failed to send your message. Please try again or email ${recipientEmail} directly.`;
+            }
+
+            setSuccess(false);
+            showFeedback('error', errorMessage);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -170,17 +307,30 @@ function Contacts() {
                 <h1 style={{ color: theme.primary }}>Contacts</h1>
                 <div className='contacts-body'>
                     <div className='contacts-form'>
-                        <form onSubmit={handleContactForm}>
+                        <form onSubmit={handleContactForm} noValidate>
+                            <input
+                                type='text'
+                                name='_honey'
+                                value={honeypot}
+                                onChange={(e) => setHoneypot(e.target.value)}
+                                style={{ display: 'none' }}
+                                tabIndex={-1}
+                                autoComplete='off'
+                                aria-hidden='true'
+                            />
                             <div className='input-container'>
                                 <label htmlFor='Name' className={classes.label}>
-                                    Name
+                                    Full Name
                                 </label>
                                 <input
-                                    placeholder='John Doe'
+                                    id='Name'
+                                    placeholder='Your Full Name'
                                     value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={handleFieldChange(setName)}
                                     type='text'
                                     name='Name'
+                                    required
+                                    disabled={isSubmitting}
                                     className={`form-input ${classes.input}`}
                                 />
                             </div>
@@ -189,14 +339,17 @@ function Contacts() {
                                     htmlFor='Email'
                                     className={classes.label}
                                 >
-                                    Email
+                                    Email Address
                                 </label>
                                 <input
-                                    placeholder='John@doe.com'
+                                    id='Email'
+                                    placeholder='you@example.com'
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={handleFieldChange(setEmail)}
                                     type='email'
                                     name='Email'
+                                    required
+                                    disabled={isSubmitting}
                                     className={`form-input ${classes.input}`}
                                 />
                             </div>
@@ -208,11 +361,13 @@ function Contacts() {
                                     Message
                                 </label>
                                 <textarea
+                                    id='Message'
                                     placeholder='Type your message....'
                                     value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    type='text'
+                                    onChange={handleFieldChange(setMessage)}
                                     name='Message'
+                                    required
+                                    disabled={isSubmitting}
                                     className={`form-message ${classes.message}`}
                                 />
                             </div>
@@ -220,33 +375,70 @@ function Contacts() {
                             <div className='submit-btn'>
                                 <button
                                     type='submit'
+                                    disabled={isSubmitting}
+                                    aria-busy={isSubmitting}
                                     className={classes.submitBtn}
                                 >
-                                    <p>{!success ? 'Send' : 'Sent'}</p>
+                                    <p>
+                                        {isSubmitting
+                                            ? 'Sending...'
+                                            : success
+                                            ? 'Sent'
+                                            : 'Send Message'}
+                                    </p>
                                     <div className='submit-icon'>
-                                        <AiOutlineSend
-                                            className='send-icon'
-                                            style={{
-                                                animation: !success
-                                                    ? 'initial'
-                                                    : 'fly 0.8s linear both',
-                                                position: success
-                                                    ? 'absolute'
-                                                    : 'initial',
-                                            }}
-                                        />
-                                        <AiOutlineCheckCircle
-                                            className='success-icon'
-                                            style={{
-                                                display: !success
-                                                    ? 'none'
-                                                    : 'inline-flex',
-                                                opacity: !success ? '0' : '1',
-                                            }}
-                                        />
+                                        {isSubmitting ? (
+                                            <CircularProgress
+                                                size={20}
+                                                style={{
+                                                    color: theme.secondary,
+                                                }}
+                                            />
+                                        ) : (
+                                            <>
+                                                <AiOutlineSend
+                                                    className='send-icon'
+                                                    style={{
+                                                        animation: !success
+                                                            ? 'initial'
+                                                            : 'fly 0.8s linear both',
+                                                        position: success
+                                                            ? 'absolute'
+                                                            : 'initial',
+                                                    }}
+                                                />
+                                                <AiOutlineCheckCircle
+                                                    className='success-icon'
+                                                    style={{
+                                                        display: !success
+                                                            ? 'none'
+                                                            : 'inline-flex',
+                                                        opacity: !success
+                                                            ? '0'
+                                                            : '1',
+                                                    }}
+                                                />
+                                            </>
+                                        )}
                                     </div>
                                 </button>
                             </div>
+                            {statusMsg && (
+                                <p
+                                    className={`contact-status ${
+                                        statusType === 'success'
+                                            ? 'contact-status--success'
+                                            : 'contact-status--error'
+                                    }`}
+                                    role={
+                                        statusType === 'success'
+                                            ? 'status'
+                                            : 'alert'
+                                    }
+                                >
+                                    {statusMsg}
+                                </p>
+                            )}
                         </form>
                         <Snackbar
                             anchorOrigin={{
@@ -254,7 +446,7 @@ function Contacts() {
                                 horizontal: 'center',
                             }}
                             open={open}
-                            autoHideDuration={4000}
+                            autoHideDuration={5000}
                             onClose={handleClose}
                         >
                             <SnackbarContent
@@ -271,11 +463,18 @@ function Contacts() {
                                     </React.Fragment>
                                 }
                                 style={{
-                                    backgroundColor: theme.primary,
-                                    color: theme.secondary,
+                                    backgroundColor:
+                                        statusType === 'success'
+                                            ? '#2e7d32'
+                                            : theme.primary,
+                                    color:
+                                        statusType === 'success'
+                                            ? '#ffffff'
+                                            : theme.secondary,
                                     fontFamily: 'var(--primaryFont)',
+                                    fontWeight: 500,
                                 }}
-                                message={errMsg}
+                                message={statusMsg}
                             />
                         </Snackbar>
                     </div>

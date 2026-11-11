@@ -75,6 +75,7 @@ import wolframalpha from "../assets/svg/skills/wolframalpha.svg";
 
 import canva from "../assets/svg/skills/canva.svg";
 import node from "../assets/svg/skills/nodejs-icon.svg";
+import genai from "../assets/svg/skills/genai.svg";
 
 export const skillsImage = (skill) => {
   const skillID = skill.toLowerCase();
@@ -233,6 +234,11 @@ export const skillsImage = (skill) => {
     case "nodejs":
     case "node.js":
       return node;
+    case "gen ai":
+    case "genai":
+    case "generative ai":
+    case "ai":
+      return genai;
     default:
       break;
   }

@@ -1,0 +1,17 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="genaiGrad1" x1="20" y1="20" x2="236" y2="236" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="50%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#E9AD35"/>
+    </linearGradient>
+    <linearGradient id="genaiGrad2" x1="150" y1="16" x2="240" y2="106" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#818CF8"/>
+    </linearGradient>
+  </defs>
+  <path d="M112 24C115.5 67 125 89 144 108C163 127 185 136.5 228 140C185 143.5 163 153 144 172C125 191 115.5 213 112 256C108.5 213 99 191 80 172C61 153 39 143.5 -4 140C39 136.5 61 127 80 108C99 89 108.5 67 112 24Z" transform="translate(8, -12) scale(0.92)" fill="url(#genaiGrad1)"/>
+  <path d="M196 18C198 40 203.5 52 214 62C224 72.5 236 78 258 80C236 82 224 87.5 214 98C203.5 108 198 120 196 142C194 120 188.5 108 178 98C168 87.5 156 82 134 80C156 78 168 72.5 178 62C188.5 52 194 40 196 18Z" transform="translate(-8, -4) scale(0.95)" fill="url(#genaiGrad2)"/>
+  <path d="M204 164C205.2 178 208.5 185 215 191.5C221.5 198 228.5 201.3 242.5 202.5C228.5 203.7 221.5 207 215 213.5C208.5 220 205.2 227 204 241C202.8 227 199.5 220 193 213.5C186.5 207 179.5 203.7 165.5 202.5C179.5 201.3 186.5 198 193 191.5C199.5 185 202.8 178 204 164Z" fill="#E9AD35"/>
+</svg>
+

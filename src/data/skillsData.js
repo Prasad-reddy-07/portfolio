@@ -10,6 +10,7 @@ export const skillsData = [
   // Backend
   "Node JS",
   "Python",
+  "Gen AI",
 
   // Database
   "PostgreSQL",

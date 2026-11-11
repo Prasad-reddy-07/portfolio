@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Marquee from "react-fast-marquee";
 import { SiJavascript } from 'react-icons/si';
 import { FaNodeJs } from 'react-icons/fa';
+import { HiSparkles } from 'react-icons/hi';
 
 import './Skills.css';
 
@@ -29,11 +30,14 @@ function Skills() {
         if (s === 'node js' || s === 'nodejs' || s === 'node.js' || s === 'node') {
             return <FaNodeJs style={{ fontSize: '50px', color: '#68A063' }} aria-label={skill} />;
         }
+        if (s === 'gen ai' || s === 'genai' || s === 'generative ai' || s === 'ai') {
+            return <HiSparkles style={{ fontSize: '50px', color: theme.primary }} aria-label={skill} />;
+        }
         return <img src={iconSrc} alt={skill} />;
     };
 
     return (
-        <div className="skills" style={{backgroundColor: theme.secondary}}>
+        <div className="skills" id="skills" style={{backgroundColor: theme.secondary}}>
             <div className="skillsHeader">
                 <h2 style={{color: theme.primary}}>Skills</h2>
             </div>

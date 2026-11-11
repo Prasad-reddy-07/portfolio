@@ -69,7 +69,7 @@ function Landing() {
   const classes = useStyles();
 
   return (
-    <div className="landing">
+    <div className="landing" id="home">
       <div className="landing--container">
         <div
           className="landing--container-left"
@@ -152,7 +152,7 @@ function Landing() {
                   <Button className={classes.resumeBtn}>Download CV</Button>
                 </a>
               )}
-              <NavLink to="/#contacts" smooth={true} spy="true" duration={2000}>
+              <NavLink to="/#contacts" smooth>
                 <Button className={classes.contactBtn}>Contact</Button>
               </NavLink>
             </div>

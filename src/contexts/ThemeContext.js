@@ -9,11 +9,13 @@ function ThemeContextProvider(props) {
     const [theme, setTheme] = useState(themeData.theme)
     const [drawerOpen, setDrawerOpen] = useState(false)
 
-    const setHandleDrawer = () => {
-        setDrawerOpen(!drawerOpen)
+    const setHandleDrawer = (nextOpen) => {
+        if (typeof nextOpen === 'boolean') {
+            setDrawerOpen(nextOpen)
+        } else {
+            setDrawerOpen((prev) => !prev)
+        }
     }
-
-
 
     const value = { theme, drawerOpen, setHandleDrawer }
     return (
@@ -22,6 +24,5 @@ function ThemeContextProvider(props) {
         </ThemeContext.Provider>
     )
 }
-
 
 export default ThemeContextProvider
